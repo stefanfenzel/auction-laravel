@@ -4,8 +4,8 @@ use Gurulabs\Http\Auctions\Controllers\AuctionsController;
 use Gurulabs\Http\Users\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', static function () {
+    return view('auctions.app');
 });
 
 Route::get('/dashboard', [AuctionsController::class, 'list'])->middleware(['auth', 'verified'])->name('dashboard');
@@ -16,9 +16,19 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Auction
-    Route::post('/auctions', [AuctionsController::class, 'create'])->name('auctions.create');
-    Route::get('/auctions/{id}', [AuctionsController::class, 'show'])->name('auctions.show');
-    Route::get('/auctions', [AuctionsController::class, 'listByUser'])->name('auctions.list');
+    Route::controller(AuctionsController::class)->group(function () {
+        Route::get('/orders/{id}', 'show');
+        Route::post('/orders', 'store');
+
+        Route::get('/auctions/{id}', 'show')
+            ->where('id', '[0-9]+')
+            ->name('auctions.show');
+
+        Route::get('/auctions', 'listByUser')->name('auctions.list');
+        Route::get('/auctions/create', 'create')->name('auctions.create');
+        Route::post('/auctions', 'store')->name('auctions.store');
+    });
+
 });
 
 require __DIR__.'/auth.php';

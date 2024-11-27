@@ -6,6 +6,7 @@ namespace Gurulabs\Http\Auctions\Controllers;
 
 use Exception;
 use Gurulabs\Domain\Auctions\Auction;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -16,7 +17,7 @@ final class AuctionsController
         // todo move to repository
         $auctions = Auction::where('end_date', '>', now())->get();
 
-        return view('dashboard', ['auctions' => $auctions]);
+        return view('auctions.dashboard', ['auctions' => $auctions]);
     }
 
     // list auctions by user
@@ -27,15 +28,22 @@ final class AuctionsController
         // todo move to repository
         $auctions = Auction::where('user_id', $userId)->get();
 
-        return view('auctions', ['auctions' => $auctions]);
+        return view('auctions.by-user', ['auctions' => $auctions]);
     }
 
-    public function show(int $id)
+    public function show($id): View
     {
-        // todo implement
+        $auction = Auction::findOrFail($id);
+
+        return view('auctions.show', ['auction' => $auction]);
     }
 
-    public function create(Request $request)
+    public function create(): View
+    {
+        return view('auctions.create');
+    }
+
+    public function store(Request $request): RedirectResponse
     {
         $userId = $request->user()->id;
 
@@ -55,9 +63,9 @@ final class AuctionsController
                 'end_date' => $request->input('end_date'),
             ]);
         } catch (Exception $e) {
-            return response()->json(['message' => 'Failed to create auction. Error: ' . $e->getMessage()], 500);
+            return back()->with('error', 'Failed to create auction. Error: ' . $e->getMessage());
         }
 
-        return response()->json($auction);
+        return redirect()->route('auctions.show', ['id' => $auction->id]);
     }
 }
