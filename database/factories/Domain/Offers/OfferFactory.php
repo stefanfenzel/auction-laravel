@@ -17,7 +17,10 @@ class OfferFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'auction_id' => 1,
+            'user_id' => 1,
+            'bid_amount' => $this->faker->randomFloat(2, 1, 100),
+            'bid_time' => now(),
         ];
     }
 }
