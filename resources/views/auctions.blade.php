@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Current auctions') }}
+            {{ __('My auctions') }}
         </h2>
     </x-slot>
 
@@ -24,7 +24,7 @@
                                     <td class="border px-4 py-2"><h2 class="text-lg font-semibold">{{ $auction->title }}</h2></td>
                                     <th class="border px-4 py-2"><p class="text-sm text-gray-500">{{ $auction->description }}</p></th>
                                     <th class="border px-4 py-2"><p class="text-sm text-gray-500">{{ $auction->end_date->format('d.m.Y H:i') }}</p></th>
-                                    <th class="border px-4 py-2"><p class="text-sm text-gray-500">{{ $auction->highestOffer() ?: '-' }}</p></th>
+                                    <th class="border px-4 py-2"><p class="text-sm text-gray-500">{{ $auction->current_bid ?: '-' }}</p></th>
                                     <th class="border px-4 py-2"><p class="text-sm text-gray-500"><a href="{{ route('auctions.show', $auction->id) }}" class="text-blue-500">View</a></p></th>
                                 </tr>
                             @endforeach
