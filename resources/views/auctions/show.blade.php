@@ -5,15 +5,29 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-12 pb-1">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="overflow-hidden">
+                <div class="p-6 text-gray-900">
+                    @if ($auction->isFinished())
+                        <p class="text-sm text-gray-500">{{ __('Finished') }}</p>
+                    @else
+                        <d class="float-right">
+                            <x-primary-button>
+                                {{ __('Give a bit') }}
+                            </x-primary-button>
+                        </d>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="py-1">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <h2 class="text-2xl font-semibold">{{ $auction->title }}</h2>
-
-                    @if ($auction->isFinished())
-                        <p class="text-sm text-gray-500">Finished</p>
-                    @endif
 
                     <p class="text-sm text-gray-500 pt-1">Description:</p>
                     <p class="text-sm text-gray-500 pb-3">{{ $auction->description }}</p>
@@ -29,7 +43,7 @@
         </div>
     </div>
 
-    <div class="py-12 pt-1">
+    <div class="py-4">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
