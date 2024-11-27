@@ -34,7 +34,7 @@ eingeloggte Benutzer.
 
 2. **Abhängigkeiten installieren**:
    ```bash
-   cd auktionssystem
+   cd auction-laravel
    composer install
    npm install && npm run dev
    ```
