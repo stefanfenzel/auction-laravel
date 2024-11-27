@@ -14,6 +14,7 @@ class Offer extends Model
     use HasFactory;
 
     protected $table = 'offers';
+
     protected $fillable = [
         'auction_id',
         'user_id',
@@ -29,5 +30,12 @@ class Offer extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'bid_time' => 'datetime',
+        ];
     }
 }

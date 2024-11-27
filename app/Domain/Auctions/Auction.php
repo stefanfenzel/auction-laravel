@@ -35,7 +35,7 @@ class Auction extends Model
         ];
     }
 
-    public function highestOffer(): float
+    public function highestOffer(): float|null
     {
         $offer = $this->hasOne(Offer::class)->latest('bid_amount')->limit(1);
 
@@ -43,7 +43,7 @@ class Auction extends Model
             return $offer->first()->bid_amount;
         }
 
-        return $this->start_price;
+        return null;
     }
 
     public function offers()
