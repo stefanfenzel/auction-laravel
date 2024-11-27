@@ -61,7 +61,7 @@ eingeloggte Benutzer.
 - Laravel Framework
 - MySQL (oder eine andere relationale Datenbank)
 - Blade Templates für die Benutzeroberfläche
-- Bootstrap für das UI-Design
+- Tailwind UI für das UI-Design
 
 ### Lizenz
 
