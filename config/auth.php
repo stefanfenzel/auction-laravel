@@ -62,7 +62,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Domain\Users\User::class,
+            'model' => Gurulabs\Domain\Users\User::class,
         ],
 
         // 'users' => [
