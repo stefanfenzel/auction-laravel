@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Collection;
 
 class Auction extends Model
 {
@@ -67,5 +68,10 @@ class Auction extends Model
     public function getDescription(): string
     {
         return html_entity_decode($this->description);
+    }
+
+    public function getOffers(): Collection
+    {
+        return $this->offers()->orderBy('bid_amount', 'desc')->get();
     }
 }

@@ -99,16 +99,13 @@
                             <tr>
                                 <th class="px-4 py-2">Bidder</th>
                                 <th class="px-4 py-2">Amount</th>
-                                <th class="px-4 py-2">Created at</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {{-- todo order offers by bid_time --}}
-                            @foreach ($auction->offers as $bid)
+                            @foreach ($auction->getOffers() as $bid)
                                 <tr>
                                     <td class="border px-4 py-2">{{ $bid->user->name }}</td>
                                     <td class="border px-4 py-2">{{ $bid->bid_amount }} €</td>
-                                    <td class="border px-4 py-2">{{ $bid->bid_time->format('d.m.Y H:i') }}</td>
                                 </tr>
                             @endforeach
                             </tbody>
