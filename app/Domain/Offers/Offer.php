@@ -22,6 +22,8 @@ class Offer extends Model
         'bid_time',
     ];
 
+    public $timestamps = false;
+
     public function auction(): BelongsTo
     {
         return $this->belongsTo(Auction::class);

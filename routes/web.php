@@ -24,6 +24,10 @@ Route::middleware('auth')->group(function () {
             ->where('id', '[0-9]+')
             ->name('auctions.show');
 
+        Route::post('/auctions/{id}', 'placeBid')
+            ->where('id', '[0-9]+')
+            ->name('auctions.place-bid');
+
         Route::get('/auctions', 'listByUser')->name('auctions.list');
         Route::get('/auctions/create', 'create')->name('auctions.create');
         Route::post('/auctions', 'store')->name('auctions.store');
