@@ -5,11 +5,13 @@ use Gurulabs\App\Offers\Controllers\OffersController;
 use Gurulabs\App\Users\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', static function () {
-    return view('auctions.app');
-});
+Route::get('/', [AuctionsController::class, 'home'])->name('home');
 
 Route::get('/dashboard', [AuctionsController::class, 'list'])->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/auctions/{id}', [AuctionsController::class, 'show'])
+    ->whereUuid('id')
+    ->name('auctions.show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -18,10 +20,6 @@ Route::middleware('auth')->group(function () {
 
     // Auction
     Route::controller(AuctionsController::class)->group(function () {
-        Route::get('/auctions/{id}', 'show')
-            ->whereUuid('id')
-            ->name('auctions.show');
-
         Route::get('/auctions', 'listByUser')->name('auctions.list');
         Route::get('/auctions/create', 'create')->name('auctions.create');
         Route::post('/auctions', 'store')->name('auctions.store');

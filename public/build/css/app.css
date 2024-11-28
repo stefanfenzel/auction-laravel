@@ -1195,11 +1195,11 @@ select {
 .pb-3 {
   padding-bottom: 0.75rem;
 }
+.pb-4 {
+  padding-bottom: 1rem;
+}
 .pe-4 {
   padding-inline-end: 1rem;
-}
-.pl-2 {
-  padding-left: 0.5rem;
 }
 .pl-3 {
   padding-left: 0.75rem;
@@ -1613,10 +1613,6 @@ select {
     margin-right: auto;
   }
 
-  .sm\:ml-0 {
-    margin-left: 0px;
-  }
-
   .sm\:ms-10 {
     margin-inline-start: 2.5rem;
   }
@@ -1635,10 +1631,6 @@ select {
 
   .sm\:hidden {
     display: none;
-  }
-
-  .sm\:h-20 {
-    height: 5rem;
   }
 
   .sm\:w-full {
@@ -1724,14 +1716,6 @@ select {
     padding-top: 0px;
   }
 
-  .sm\:text-left {
-    text-align: left;
-  }
-
-  .sm\:text-right {
-    text-align: right;
-  }
-
   .sm\:text-sm {
     font-size: 0.875rem;
     line-height: 1.25rem;
@@ -1740,20 +1724,6 @@ select {
   .sm\:text-sm\/6 {
     font-size: 0.875rem;
     line-height: 1.5rem;
-  }
-}
-@media (min-width: 768px) {
-
-  .md\:grid-cols-2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .md\:border-l {
-    border-left-width: 1px;
-  }
-
-  .md\:border-t-0 {
-    border-top-width: 0px;
   }
 }
 @media (min-width: 1024px) {

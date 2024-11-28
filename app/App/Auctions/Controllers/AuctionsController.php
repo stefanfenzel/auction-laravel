@@ -23,6 +23,13 @@ final readonly class AuctionsController
     ) {
     }
 
+    public function home(): View
+    {
+        $auctions = $this->auctionRepository->findRunningAuctions();
+
+        return view('auctions.home', ['auctions' => $auctions]);
+    }
+
     public function list(): View
     {
         $auctions = $this->auctionRepository->findRunningAuctions();

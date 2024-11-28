@@ -82,9 +82,11 @@
         </div>
     </div>
 
-    @if (!$auction->isFinished())
-        @include('auctions.partials.new-bid')
-    @endif
+    @auth
+        @if (!$auction->isFinished())
+            @include('auctions.partials.new-bid')
+       @endif
+    @endauth
 
     <div class="py-4">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
