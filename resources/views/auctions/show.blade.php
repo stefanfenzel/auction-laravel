@@ -5,43 +5,9 @@
         </h2>
     </x-slot>
 
-    @if ($errors->any())
-        <div class="py-1 pt-4">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="overflow-hidden">
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>
-                                    <div class="p-4 mb-1 text-sm text-red-600 rounded-lg bg-red-50" role="alert">
-                                        {{ $error }}
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
+    @include('components.error-alerts')
 
-    @if (isset($success))
-        <div class="py-1 pt-4">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="overflow-hidden">
-                    <div class="alert alert-danger">
-                        <ul>
-                            <li>
-                                <div class="p-4 mb-1 text-sm text-green-600 rounded-lg bg-green-50" role="alert">
-                                    {{ $success }}
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
+    @include('components.success-alerts')
 
     @if ($auction->isFinished())
         <div class="py-1 pb-1">
@@ -61,15 +27,17 @@
                 <div class="p-6 text-gray-900">
                     <h2 class="text-2xl font-semibold">{{ $auction->title }}</h2>
 
-                    <p class="text-sm text-gray-500 pt-1">Description:</p>
+                    <p class="text-sm text-gray-500 pt-1">{{ __('Description') }}:</p>
                     <p class="text-sm text-gray-500 pb-3">{{ $auction->description }}</p>
                     <hr class="my-4 pb-3">
-                    <p class="text-sm text-gray-500">End date: {{ $auction->end_date->format('d.m.Y H:i') }}</p>
-                    <p class="text-sm text-gray-500">Starting price: {{ $auction->start_price }} €</p>
-                    <p class="text-sm text-gray-500">Highest bid: {{ $auction->highestOffer() ?: '-' }} €</p>
-                    <p class="text-sm text-gray-500">Created by: {{ $auction->user->name }}</p>
-                    <p class="text-sm text-gray-500">Created at: {{ $auction->created_at->format('d.m.Y H:i') }}</p>
-                    <p class="text-sm text-gray-500">Updated at: {{ $auction->updated_at->format('d.m.Y H:i') }}</p>
+                    <span class="text-sm text-gray-500 pl-3 pr-3">
+                        {{ __('End date') }}: {{ $auction->end_date->format('d.m.Y') }} {{ __('at') }} {{ $auction->end_date->format('H:s') }} {{ __('o\'Clock') }}
+                    </span> |
+                    <span class="text-sm text-gray-500 pl-3 pr-3">{{ __('Starting price') }}: {{ $auction->start_price }} €</span> |
+                    <span class="text-sm text-gray-500 pl-3 pr-3">{{ __('Highest bid') }}: {{ $auction->highestOffer() ?: '-' }} €</span> |
+                    <span class="text-sm text-gray-500 pl-3 pr-3">{{ __('Created at') }}
+                        {{ $auction->created_at->format('d.m.Y') }} {{ __('by') }} {{ $auction->user->name }}
+                    </span>
                 </div>
             </div>
         </div>

@@ -10,6 +10,7 @@ use Gurulabs\App\Auctions\ReadModel\AuctionDto;
 use Gurulabs\Domain\Auctions\AuctionRepositoryInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\MessageBag;
 use Illuminate\View\View;
 
 final readonly class AuctionsController
@@ -49,23 +50,27 @@ final readonly class AuctionsController
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'title' => 'required|string',
-            'description' => 'required|string',
-            'start_price' => 'required|numeric',
-            'end_date' => 'required|date',
+            'title' => 'required|string|max:250',
+            'description' => 'required|string|max:65535',
+            'start_price' => 'required|numeric|min:1',
+            'end_date' => 'required|date|after:today',
         ]);
 
         try {
             $auctionDto = new AuctionDto(
                 $request->user()->id,
-                $request->input('title'),
-                $request->input('description'),
-                $request->input('start_price'),
+                htmlentities($request->input('title')),
+                htmlentities($request->input('description')),
+                (float)$request->input('start_price'),
                 new DateTimeImmutable($request->input('end_date')),
             );
             $auction = $this->auctionRepository->save($auctionDto);
         } catch (Exception $e) {
-            return back()->with('errors', 'Failed to create auction. Error: ' . $e->getMessage());
+            $error = new MessageBag(
+                ['errors' => 'Failed to create auction. Error: ' . $e->getMessage()]
+            );
+
+            return back()->with('errors', $error);
         }
 
         return redirect()->route('auctions.show', ['id' => $auction->id]);
