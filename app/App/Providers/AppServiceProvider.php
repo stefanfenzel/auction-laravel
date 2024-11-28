@@ -2,12 +2,15 @@
 
 namespace Gurulabs\App\Providers;
 
+use Gurulabs\App\View\Components\AppLayout;
+use Gurulabs\App\View\Components\GuestLayout;
 use Gurulabs\Domain\Auctions\AuctionRepositoryInterface;
 use Gurulabs\Domain\Offers\OfferRepositoryInterface;
 use Gurulabs\Domain\Users\UserRepositoryInterface;
 use Gurulabs\Infrastructure\Auctions\EloquentAuctionRepository;
 use Gurulabs\Infrastructure\Offers\EloquentOfferRepository;
 use Gurulabs\Infrastructure\Users\EloquentUserRepository;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -31,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Blade::component('app-layout', AppLayout::class);
+        Blade::component('guest-layout', GuestLayout::class);
     }
 }
