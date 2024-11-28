@@ -1,11 +1,10 @@
 <?php
 
-namespace Gurulabs\Http\Users\Controllers;
+namespace Gurulabs\App\Users\Controllers;
 
-use Illuminate\Http\Request;
 use Gurulabs\App\Controllers\Controller;
 
-class UsersController extends Controller
+final class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.

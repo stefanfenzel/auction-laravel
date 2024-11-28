@@ -1,9 +1,9 @@
 <?php
 
-namespace Gurulabs\Http\Users\Controllers;
+namespace Gurulabs\App\Users\Controllers;
 
 use Gurulabs\App\Controllers\Controller;
-use Gurulabs\Http\Users\Requests\ProfileUpdateRequest;
+use Gurulabs\App\Users\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

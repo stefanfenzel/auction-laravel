@@ -1,6 +1,6 @@
 <?php
 
-namespace Gurulabs\Http\Users\Requests;
+namespace Gurulabs\App\Users\Requests;
 
 use Gurulabs\Domain\Users\User;
 use Illuminate\Foundation\Http\FormRequest;

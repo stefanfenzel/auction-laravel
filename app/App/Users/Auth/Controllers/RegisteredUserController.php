@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gurulabs\Http\Auth\Controllers;
+namespace Gurulabs\App\Users\Auth\Controllers;
 
 use Gurulabs\App\Controllers\Controller;
 use Gurulabs\App\Users\ReadModel\UserDto;

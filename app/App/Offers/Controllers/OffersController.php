@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gurulabs\Http\Offers\Controllers;
+namespace Gurulabs\App\Offers\Controllers;
 
 use DateTimeImmutable;
 use Exception;

@@ -1,9 +1,9 @@
 <?php
 
-namespace Gurulabs\Http\Auth\Controllers;
+namespace Gurulabs\App\Users\Auth\Controllers;
 
 use Gurulabs\App\Controllers\Controller;
-use Gurulabs\Http\Auth\Requests\LoginRequest;
+use Gurulabs\App\Users\Auth\Requests\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

@@ -1,8 +1,8 @@
 <?php
 
-use Gurulabs\Http\Auctions\Controllers\AuctionsController;
-use Gurulabs\Http\Offers\Controllers\OffersController;
-use Gurulabs\Http\Users\Controllers\ProfileController;
+use Gurulabs\App\Auctions\Controllers\AuctionsController;
+use Gurulabs\App\Offers\Controllers\OffersController;
+use Gurulabs\App\Users\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', static function () {

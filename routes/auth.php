@@ -1,14 +1,14 @@
 <?php
 
-use Gurulabs\Http\Auth\Controllers\AuthenticatedSessionController;
-use Gurulabs\Http\Auth\Controllers\ConfirmablePasswordController;
-use Gurulabs\Http\Auth\Controllers\EmailVerificationNotificationController;
-use Gurulabs\Http\Auth\Controllers\EmailVerificationPromptController;
-use Gurulabs\Http\Auth\Controllers\NewPasswordController;
-use Gurulabs\Http\Auth\Controllers\PasswordController;
-use Gurulabs\Http\Auth\Controllers\PasswordResetLinkController;
-use Gurulabs\Http\Auth\Controllers\RegisteredUserController;
-use Gurulabs\Http\Auth\Controllers\VerifyEmailController;
+use Gurulabs\App\Users\Auth\Controllers\AuthenticatedSessionController;
+use Gurulabs\App\Users\Auth\Controllers\ConfirmablePasswordController;
+use Gurulabs\App\Users\Auth\Controllers\EmailVerificationNotificationController;
+use Gurulabs\App\Users\Auth\Controllers\EmailVerificationPromptController;
+use Gurulabs\App\Users\Auth\Controllers\NewPasswordController;
+use Gurulabs\App\Users\Auth\Controllers\PasswordController;
+use Gurulabs\App\Users\Auth\Controllers\PasswordResetLinkController;
+use Gurulabs\App\Users\Auth\Controllers\RegisteredUserController;
+use Gurulabs\App\Users\Auth\Controllers\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {

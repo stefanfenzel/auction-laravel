@@ -1,6 +1,6 @@
 <?php
 
-namespace Gurulabs\Http\Auth\Requests;
+namespace Gurulabs\App\Users\Auth\Requests;
 
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;

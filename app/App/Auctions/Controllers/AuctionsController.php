@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gurulabs\Http\Auctions\Controllers;
+namespace Gurulabs\App\Auctions\Controllers;
 
 use DateTimeImmutable;
 use Exception;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Gurulabs\Http\Auth\Controllers;
+namespace Gurulabs\App\Users\Auth\Controllers;
 
 use Gurulabs\App\Controllers\Controller;
 use Illuminate\Auth\Events\Verified;
