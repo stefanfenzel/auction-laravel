@@ -8,10 +8,8 @@ use DateTimeImmutable;
 use Exception;
 use Gurulabs\App\Auctions\ReadModel\AuctionDto;
 use Gurulabs\Domain\Auctions\AuctionRepositoryInterface;
-use Gurulabs\Domain\Offers\Offer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\MessageBag;
 use Illuminate\View\View;
 
 final readonly class AuctionsController
@@ -71,36 +69,5 @@ final readonly class AuctionsController
         }
 
         return redirect()->route('auctions.show', ['id' => $auction->id]);
-    }
-
-    public function placeBid(Request $request): RedirectResponse
-    {
-        $userId = $request->user()->id;
-        $auctionId = (int)$request->route('id');
-        $amount = (float)$request->input('price');
-        $auction = $this->auctionRepository->findById($auctionId);
-        $highestBid = $auction->highestOffer() ?? $auction->start_price;
-
-        $request->validate([
-            'price' => 'required|numeric|gt:' . $highestBid,
-        ]);
-
-        try {
-            // todo move to repository
-            Offer::create([
-                'auction_id' => $auctionId,
-                'user_id' => $userId,
-                'bid_amount' => $amount,
-                'bid_time' => now(),
-            ]);
-        } catch (Exception $e) {
-            $error = new MessageBag(
-                ['errors' => 'Failed to place bid. Error: ' . $e->getMessage()]
-            );
-
-            return back()->with('errors', $error);
-        }
-
-        return back()->with('success', 'Bid placed successfully');
     }
 }

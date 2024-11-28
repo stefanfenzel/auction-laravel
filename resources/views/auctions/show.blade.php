@@ -76,7 +76,7 @@
     </div>
 
     @if (!$auction->isFinished())
-        <form method="POST" action="{{ route('auctions.place-bid', $auction->id) }}">
+        <form method="POST" action="{{ route('offers.place-bid', $auction->id) }}">
             @csrf
             <div class="py-1">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

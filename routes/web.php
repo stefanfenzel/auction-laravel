@@ -1,6 +1,7 @@
 <?php
 
 use Gurulabs\Http\Auctions\Controllers\AuctionsController;
+use Gurulabs\Http\Offers\Controllers\OffersController;
 use Gurulabs\Http\Users\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,15 +25,15 @@ Route::middleware('auth')->group(function () {
             ->where('id', '[0-9]+')
             ->name('auctions.show');
 
-        Route::post('/auctions/{id}', 'placeBid')
-            ->where('id', '[0-9]+')
-            ->name('auctions.place-bid');
-
         Route::get('/auctions', 'listByUser')->name('auctions.list');
         Route::get('/auctions/create', 'create')->name('auctions.create');
         Route::post('/auctions', 'store')->name('auctions.store');
     });
 
+    // Offer
+    Route::post('/auctions/{id}', [OffersController::class, 'placeBid'])
+        ->where('id', '[0-9]+')
+        ->name('offers.place-bid');
 });
 
 require __DIR__.'/auth.php';
