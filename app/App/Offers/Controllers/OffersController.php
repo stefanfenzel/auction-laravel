@@ -9,6 +9,8 @@ use Exception;
 use Gurulabs\App\Offers\ReadModel\OfferDto;
 use Gurulabs\Domain\Auctions\AuctionRepositoryInterface;
 use Gurulabs\Domain\Offers\OfferRepositoryInterface;
+use Gurulabs\Domain\Uuid;
+use Gurulabs\Domain\UuidFactory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
@@ -18,23 +20,26 @@ final readonly class OffersController
     public function __construct(
         private AuctionRepositoryInterface $auctionRepository,
         private OfferRepositoryInterface $offerRepository,
+        private UuidFactory $uuidFactory,
     ) {
     }
 
     public function placeBid(Request $request): RedirectResponse
     {
         $userId = $request->user()->id;
-        $auctionId = (int)$request->route('id');
+        $auctionId = $request->route('id');
         $amount = (float)$request->input('price');
-        $auction = $this->auctionRepository->findById($auctionId);
+        $auction = $this->auctionRepository->findById(Uuid::fromString($auctionId));
         $highestBid = $auction->highestOffer() ?? $auction->start_price;
 
         $request->validate([
+            'auction_id' => 'required|uuid|exists:auctions,id',
             'price' => 'required|numeric|gt:' . $highestBid,
         ]);
 
         try {
             $offerDto = new OfferDto(
+                $this->uuidFactory->create()->toString(),
                 $auctionId,
                 $userId,
                 $amount,

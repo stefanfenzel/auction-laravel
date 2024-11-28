@@ -10,10 +10,10 @@ use Gurulabs\Domain\Offers\OfferRepositoryInterface;
 
 final class EloquentOfferRepository implements OfferRepositoryInterface
 {
-    public function save(OfferDto $offer): Offer
+    public function save(OfferDto $offer): void
     {
-        // todo implement uuid and set return type to void
-        return Offer::create([
+        Offer::create([
+            'id' => $offer->getId(),
             'auction_id' => $offer->getAuctionId(),
             'user_id' => $offer->getUserId(),
             'bid_amount' => $offer->getBidAmount(),

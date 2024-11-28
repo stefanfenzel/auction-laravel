@@ -18,21 +18,30 @@ Route::middleware('auth')->group(function () {
 
     // Auction
     Route::controller(AuctionsController::class)->group(function () {
-        Route::get('/orders/{id}', 'show');
-        Route::post('/orders', 'store');
-
         Route::get('/auctions/{id}', 'show')
-            ->where('id', '[0-9]+')
+            ->whereUuid('id')
             ->name('auctions.show');
 
         Route::get('/auctions', 'listByUser')->name('auctions.list');
         Route::get('/auctions/create', 'create')->name('auctions.create');
         Route::post('/auctions', 'store')->name('auctions.store');
+
+        Route::post('/auctions/{id}/delete', 'delete')
+            ->whereUuid('id')
+            ->name('auctions.delete');
+
+        Route::get('/auctions/{id}/edit', 'edit')
+            ->whereUuid('id')
+            ->name('auctions.edit');
+
+        Route::post('/auctions/{id}/update', 'update')
+            ->whereUuid('id')
+            ->name('auctions.update');
     });
 
     // Offer
-    Route::post('/auctions/{id}', [OffersController::class, 'placeBid'])
-        ->where('id', '[0-9]+')
+    Route::post('/auctions/{id}/offer', [OffersController::class, 'placeBid'])
+        ->whereUuid('id')
         ->name('offers.place-bid');
 });
 

@@ -8,5 +8,5 @@ use Gurulabs\App\Offers\ReadModel\OfferDto;
 
 interface OfferRepositoryInterface
 {
-    public function save(OfferDto $offer): Offer;
+    public function save(OfferDto $offer): void;
 }

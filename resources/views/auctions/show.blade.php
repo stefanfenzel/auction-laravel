@@ -25,10 +25,49 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <h2 class="text-2xl font-semibold">{{ $auction->title }}</h2>
+                    <div>
+                        <div class="inline-flex"><h2 class="text-2xl font-semibold max-w-5xl">
+                                {{ $auction->getTitle() }}
+                            </h2></div>
+
+                        @if ($auction->user_id === auth()->id())
+                            <div class="inline-flex float-right">
+                                <x-dropdown>
+                                    <x-slot name="trigger">
+                                        <button class="inline-flex items-center px-3 py-2 text-blue-500">
+                                            <div>{{ __('Actions') }}</div>
+
+                                            <div class="ms-1">
+                                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                                </svg>
+                                            </div>
+                                        </button>
+                                    </x-slot>
+
+                                    <x-slot name="content">
+                                        @if (!$auction->isFinished())
+                                            <x-dropdown-link :href="route('auctions.edit', $auction->id)">
+                                                {{ __('Edit') }}
+                                            </x-dropdown-link>
+                                        @endif
+
+                                        <form action="{{ route('auctions.delete', $auction->id) }}" method="POST">
+                                            @csrf
+
+                                            <x-dropdown-link :href="route('auctions.delete', $auction->id)"
+                                                             onclick="event.preventDefault(); this.closest('form').submit();">
+                                                {{ __('Delete') }}
+                                            </x-dropdown-link>
+                                        </form>
+                                    </x-slot>
+                                </x-dropdown>
+                            </div>
+                        @endif
+                    </div>
 
                     <p class="text-sm text-gray-500 pt-1">{{ __('Description') }}:</p>
-                    <p class="text-sm text-gray-500 pb-3">{{ $auction->description }}</p>
+                    <p class="text-sm text-gray-500 pb-3">{{ $auction->getDescription() }}</p>
                     <hr class="my-4 pb-3">
                     <span class="text-sm text-gray-500 pl-3 pr-3">
                         {{ __('End date') }}: {{ $auction->end_date->format('d.m.Y') }} {{ __('at') }} {{ $auction->end_date->format('H:s') }} {{ __('o\'Clock') }}
@@ -44,43 +83,7 @@
     </div>
 
     @if (!$auction->isFinished())
-        <form method="POST" action="{{ route('offers.place-bid', $auction->id) }}">
-            @csrf
-            <div class="py-1">
-                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div class="p-6 text-gray-900">
-                            <div class="d-flex justify-content-between">
-                                <h2 class="text-2xl font-semibold">Place a bid</h2>
-
-                                <div class="py-2">
-                                    <label for="price" class="block text-sm/6 font-medium text-gray-900">Price</label>
-                                    <div class="inline-flex relative mt-2 rounded-md shadow-sm">
-                                        <div
-                                            class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                                            <span class="text-gray-500 sm:text-sm">€</span>
-                                        </div>
-                                        <input
-                                            type="text"
-                                            name="price"
-                                            id="price"
-                                            class="inline-flex w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
-                                            placeholder="{{ $auction->highestOffer() ?: $auction->start_price }}"
-                                            min="{{ $auction->highestOffer() ?: $auction->start_price }}">
-                                    </div>
-
-                                    <div class="inline-flex pl-3">
-                                        <x-primary-button>
-                                            {{ __('Give a bit') }}
-                                        </x-primary-button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
+        @include('auctions.partials.new-bid')
     @endif
 
     <div class="py-4">

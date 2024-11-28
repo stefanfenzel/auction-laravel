@@ -9,14 +9,15 @@ use DateTimeImmutable;
 final readonly class OfferDto
 {
     public function __construct(
-        private int $auctionId,
+        private string $id,
+        private string $auctionId,
         private int $userId,
         private float $bidAmount,
         private DateTimeImmutable $bidTime,
     ) {
     }
 
-    public function getAuctionId(): int
+    public function getAuctionId(): string
     {
         return $this->auctionId;
     }
@@ -34,5 +35,10 @@ final readonly class OfferDto
     public function getBidTime(): DateTimeImmutable
     {
         return $this->bidTime;
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
     }
 }

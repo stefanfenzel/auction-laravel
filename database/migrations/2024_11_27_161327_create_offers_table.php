@@ -12,9 +12,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('offers', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('auction_id')->constrained('auctions')->onDelete('cascade');
+        Schema::create('offers', static function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('auction_id')->constrained('auctions')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users');
             $table->decimal('bid_amount', 10, 2)->nullable(false);
             $table->dateTime('bid_time')->default(DB::raw('CURRENT_TIMESTAMP'));

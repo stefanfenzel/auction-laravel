@@ -4,6 +4,7 @@ namespace Gurulabs\Domain\Auctions;
 
 use Gurulabs\Domain\Offers\Offer;
 use Gurulabs\Domain\Users\User;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,10 +13,12 @@ class Auction extends Model
 {
     /** @use HasFactory<\Database\Factories\Domain\Auctions\AuctionFactory> */
     use HasFactory;
+    use HasUuids;
 
     protected $table = 'auctions';
 
     protected $fillable = [
+        'id',
         'user_id',
         'title',
         'description',
@@ -54,5 +57,15 @@ class Auction extends Model
     public function isFinished(): bool
     {
         return now() > $this->end_date;
+    }
+
+    public function getTitle(): string
+    {
+        return html_entity_decode($this->title);
+    }
+
+    public function getDescription(): string
+    {
+        return html_entity_decode($this->description);
     }
 }
