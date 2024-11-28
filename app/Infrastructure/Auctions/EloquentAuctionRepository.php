@@ -7,6 +7,7 @@ namespace Gurulabs\Infrastructure\Auctions;
 use Gurulabs\App\Auctions\ReadModel\AuctionDto;
 use Gurulabs\Domain\Auctions\Auction;
 use Gurulabs\Domain\Auctions\AuctionRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 final class EloquentAuctionRepository implements AuctionRepositoryInterface
 {
@@ -15,12 +16,12 @@ final class EloquentAuctionRepository implements AuctionRepositoryInterface
         return Auction::findOrFail($id);
     }
 
-    public function findByUserId(int $userId): ?Auction
+    public function findByUserId(int $userId): Collection
     {
         return Auction::where('user_id', $userId)->get();
     }
 
-    public function findRunningAuctions(): ?Auction
+    public function findRunningAuctions(): Collection
     {
         return Auction::where('end_date', '>', now())->get();
     }
