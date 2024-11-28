@@ -1,6 +1,6 @@
 <?php
 
-namespace Gurulabs\Http;
+namespace Gurulabs\Infrastructure\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -15,11 +15,11 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         // \Gurulabs\Http\Middleware\TrustHosts::class,
-        \Gurulabs\Http\Middleware\TrustProxies::class,
+        \Gurulabs\Infrastructure\Http\Middleware\TrustProxies::class,
         \Illuminate\Http\Middleware\HandleCors::class,
-        \Gurulabs\Http\Middleware\PreventRequestsDuringMaintenance::class,
+        \Gurulabs\Infrastructure\Http\Middleware\PreventRequestsDuringMaintenance::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
-        \Gurulabs\Http\Middleware\TrimStrings::class,
+        \Gurulabs\Infrastructure\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
 
@@ -30,11 +30,11 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
-            \Gurulabs\Http\Middleware\EncryptCookies::class,
+            \Gurulabs\Infrastructure\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \Gurulabs\Http\Middleware\VerifyCsrfToken::class,
+            \Gurulabs\Infrastructure\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
@@ -53,12 +53,12 @@ class Kernel extends HttpKernel
      * @var array<string, class-string|string>
      */
     protected $routeMiddleware = [
-        'auth' => \Gurulabs\Http\Middleware\Authenticate::class,
+        'auth' => \Gurulabs\Infrastructure\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest' => \Gurulabs\Http\Middleware\RedirectIfAuthenticated::class,
+        'guest' => \Gurulabs\Infrastructure\Http\Middleware\RedirectIfAuthenticated::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,

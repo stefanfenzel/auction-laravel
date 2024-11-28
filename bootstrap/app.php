@@ -28,7 +28,7 @@ $app = new Illuminate\Foundation\Application(
 
 $app->singleton(
     Illuminate\Contracts\Http\Kernel::class,
-    Gurulabs\Http\Kernel::class
+    \Gurulabs\Infrastructure\Http\Kernel::class
 );
 
 $app->singleton(

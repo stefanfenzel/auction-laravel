@@ -1,6 +1,6 @@
 <?php
 
-namespace Gurulabs\View\Components;
+namespace Gurulabs\App\View\Components;
 
 use Illuminate\View\Component;
 use Illuminate\View\View;

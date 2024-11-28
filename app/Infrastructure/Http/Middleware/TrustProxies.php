@@ -1,6 +1,6 @@
 <?php
 
-namespace Gurulabs\Http\Middleware;
+namespace Gurulabs\Infrastructure\Http\Middleware;
 
 use Illuminate\Http\Middleware\TrustProxies as Middleware;
 use Illuminate\Http\Request;
