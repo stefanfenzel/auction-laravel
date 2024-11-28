@@ -4,20 +4,26 @@ declare(strict_types=1);
 
 namespace Gurulabs\Http\Auctions\Controllers;
 
+use DateTimeImmutable;
 use Exception;
-use Gurulabs\Domain\Auctions\Auction;
+use Gurulabs\App\Auctions\ReadModel\AuctionDto;
+use Gurulabs\Domain\Auctions\AuctionRepositoryInterface;
 use Gurulabs\Domain\Offers\Offer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
 use Illuminate\View\View;
 
-final class AuctionsController
+final readonly class AuctionsController
 {
+    public function __construct(
+        private AuctionRepositoryInterface $auctionRepository,
+    ) {
+    }
+
     public function list(): View
     {
-        // todo move to repository
-        $auctions = Auction::where('end_date', '>', now())->get();
+        $auctions = $this->auctionRepository->findRunningAuctions();
 
         return view('auctions.dashboard', ['auctions' => $auctions]);
     }
@@ -25,17 +31,14 @@ final class AuctionsController
     // list auctions by user
     public function listByUser(Request $request): View
     {
-        $userId = $request->user()->id;
-
-        // todo move to repository
-        $auctions = Auction::where('user_id', $userId)->get();
+        $auctions = $this->auctionRepository->findByUserId($request->user()->id);
 
         return view('auctions.by-user', ['auctions' => $auctions]);
     }
 
     public function show($id): View
     {
-        $auction = Auction::findOrFail($id);
+        $auction = $this->auctionRepository->findById((int)$id);
 
         return view('auctions.show', ['auction' => $auction]);
     }
@@ -47,8 +50,6 @@ final class AuctionsController
 
     public function store(Request $request): RedirectResponse
     {
-        $userId = $request->user()->id;
-
         $request->validate([
             'title' => 'required|string',
             'description' => 'required|string',
@@ -57,13 +58,14 @@ final class AuctionsController
         ]);
 
         try {
-            $auction = Auction::create([
-                'user_id' => $userId,
-                'title' => $request->input('title'),
-                'description' => $request->input('description'),
-                'start_price' => $request->input('start_price'),
-                'end_date' => $request->input('end_date'),
-            ]);
+            $auctionDto = new AuctionDto(
+                $request->user()->id,
+                $request->input('title'),
+                $request->input('description'),
+                $request->input('start_price'),
+                new DateTimeImmutable($request->input('end_date')),
+            );
+            $auction = $this->auctionRepository->save($auctionDto);
         } catch (Exception $e) {
             return back()->with('errors', 'Failed to create auction. Error: ' . $e->getMessage());
         }
@@ -76,8 +78,8 @@ final class AuctionsController
         $userId = $request->user()->id;
         $auctionId = (int)$request->route('id');
         $amount = (float)$request->input('price');
-        $auction = Auction::findOrFail($auctionId);
-        $highestBid = $auction->highest_bid ?? $auction->start_price;
+        $auction = $this->auctionRepository->findById($auctionId);
+        $highestBid = $auction->highestOffer() ?? $auction->start_price;
 
         $request->validate([
             'price' => 'required|numeric|gt:' . $highestBid,
