@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('auctions', static function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('title', 250);
+            $table->string('title', 255);
             $table->text('description');
             $table->decimal('start_price', 10, 2);
             $table->dateTime('end_date');
