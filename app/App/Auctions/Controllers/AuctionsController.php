@@ -6,7 +6,7 @@ namespace Gurulabs\App\Auctions\Controllers;
 
 use DateTimeImmutable;
 use Exception;
-use Gurulabs\App\Auctions\ReadModel\AuctionDto;
+use Gurulabs\Domain\Auctions\Auction;
 use Gurulabs\Domain\Auctions\AuctionRepositoryInterface;
 use Gurulabs\Domain\Uuid;
 use Gurulabs\Domain\UuidFactory;
@@ -37,7 +37,6 @@ final readonly class AuctionsController
         return view('auctions.dashboard', ['auctions' => $auctions]);
     }
 
-    // list auctions by user
     public function listByUser(Request $request): View
     {
         $auctions = $this->auctionRepository->findByUserId($request->user()->id);
@@ -67,15 +66,15 @@ final readonly class AuctionsController
         ]);
 
         try {
-            $auctionDto = new AuctionDto(
+            $auction = new Auction([
                 $this->uuidFactory->create()->toString(),
                 $request->user()->id,
                 $request->input('title'),
                 $request->input('description'),
                 (float)$request->input('start_price'),
                 new DateTimeImmutable($request->input('end_date')),
-            );
-            $this->auctionRepository->save($auctionDto);
+            ]);
+            $this->auctionRepository->save($auction);
         } catch (Exception $e) {
             $error = new MessageBag(
                 ['errors' => 'Failed to create auction. Error: ' . $e->getMessage()]
@@ -84,7 +83,7 @@ final readonly class AuctionsController
             return back()->with('errors', $error);
         }
 
-        return redirect()->route('auctions.show', ['id' => $auctionDto->getId()]);
+        return redirect()->route('auctions.show', ['id' => $auction->id]);
     }
 
     public function delete(string $id): RedirectResponse
@@ -124,15 +123,11 @@ final readonly class AuctionsController
         ]);
 
         try {
-            $auctionDto = new AuctionDto(
-                $id,
-                $request->user()->id,
-                $request->input('title'),
-                $request->input('description'),
-                (float)$request->input('start_price'),
-                new DateTimeImmutable($request->input('end_date')),
-            );
-            $this->auctionRepository->save($auctionDto);
+            $auction->changeTitle($request->input('title'));
+            $auction->changeDescription($request->input('description'));
+            $auction->changeStartPrice((float)$request->input('start_price'));
+            $auction->changeEndDate(new DateTimeImmutable($request->input('end_date')));
+            $this->auctionRepository->save($auction);
         } catch (Exception $e) {
             $error = new MessageBag(
                 ['errors' => 'Failed to update auction. Error: ' . $e->getMessage()]
@@ -141,6 +136,6 @@ final readonly class AuctionsController
             return back()->with('errors', $error);
         }
 
-        return redirect()->route('auctions.show', ['id' => $auctionDto->getId()]);
+        return redirect()->route('auctions.show', ['id' => $auction->id]);
     }
 }

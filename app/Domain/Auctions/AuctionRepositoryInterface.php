@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Gurulabs\Domain\Auctions;
 
-use Gurulabs\App\Auctions\ReadModel\AuctionDto;
 use Gurulabs\Domain\Uuid;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -16,7 +15,7 @@ interface AuctionRepositoryInterface
 
     public function findRunningAuctions(): Collection;
 
-    public function save(AuctionDto $auction): void;
+    public function save(Auction $auction): void;
 
     public function delete(Uuid $id): void;
 }

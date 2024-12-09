@@ -2,6 +2,7 @@
 
 namespace Gurulabs\Domain\Auctions;
 
+use DateTimeImmutable;
 use Gurulabs\Domain\Offers\Offer;
 use Gurulabs\Domain\Users\User;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -17,15 +18,24 @@ class Auction extends Model
     use HasUuids;
 
     protected $table = 'auctions';
+    protected $guarded = ['*'];
 
-    protected $fillable = [
-        'id',
-        'user_id',
-        'title',
-        'description',
-        'start_price',
-        'end_date',
-    ];
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->attributes['id'] = $attributes['id'] ?? null;
+        $this->attributes['user_id'] = $attributes['user_id'] ?? null;
+        $this->attributes['title'] = htmlentities($attributes['title'] ?? null);
+        $this->attributes['description'] = htmlentities($attributes['description'] ?? null);
+        $this->attributes['start_price'] = $attributes['start_price'] ?? null;
+        $this->attributes['end_date'] = $attributes['end_date'] ?? null;
+    }
+
+    /*public function setAttribute($key, $value): void
+    {
+        throw new RuntimeException("Attributes cannot be mutated directly in this model.");
+    }*/
 
     public function user(): BelongsTo
     {
@@ -65,13 +75,33 @@ class Auction extends Model
         return html_entity_decode($this->title);
     }
 
+    public function changeTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
     public function getDescription(): string
     {
         return html_entity_decode($this->description);
     }
 
+    public function changeDescription(string $description): void
+    {
+        $this->description = $description;
+    }
+
     public function getOffers(): Collection
     {
         return $this->offers()->orderBy('bid_amount', 'desc')->get();
+    }
+
+    public function changeStartPrice(float $startPrice): void
+    {
+        $this->start_price = $startPrice;
+    }
+
+    public function changeEndDate(DateTimeImmutable $endDate): void
+    {
+        $this->end_date = $endDate->format('Y-m-d H:i:s');
     }
 }
