@@ -63,7 +63,4 @@ eingeloggte Benutzer.
 - Blade Templates für die Benutzeroberfläche
 - Tailwind UI für das UI-Design
 
-### Lizenz
-
-Dieses Projekt ist lizenziert unter der MIT-Lizenz.
 
